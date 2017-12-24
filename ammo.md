@@ -1,0 +1,309 @@
+# Fantasy POS - Ammo
+
+Ammo is a core library, used extensively in the front-end code of Fantasy POS. It offers a number of javascript utilities for common development tasks including an app construct, promise API, DOM manipulation API, buffering system, persistent storage API and many more. You can use Ammo to build lean functionality within the Fantasy POS app. This library has zero dependencies and utilizes ES6 code.
+
+## Purpose
+
+Ammo was developed with the goal to make heavy-in-size and heavy-upon-initialization libraries like jQuery and Dust obsolete. It offers common utilities for many of the available methods in jQuery, related to DOM manipulation. It exposes a stand-alone AJAX API for simple JSON-based requests. It also has a replacement for the events system available in jQuery. All of ammo's methods are light-weight and they apply minimum abstraction layers on top of standard ES6 code to keep them efficient and fast.
+
+## Usage
+
+Some of the commonly used Ammo utilities are:
+
+- app() - an app construct, for building encapsulated, functional apps with manageable store
+- sequence() - a recursion-based promise implementation
+- select() and selectAll() - DOM-manipulation APIs
+
+##### Ammo.app
+
+###### General examples
+
+Ammo.app allows for the creation of elegant, encapsulated, functional apps with manageable store. This construct uses extensively the cascade and curry design patterns. Here's an example of how to use ammo.app:
+
+```javascript
+/* globals ammo */
+
+// create local app with a 'default' schema
+const app = ammo.app().default('schema');
+```
+
+This creates a local app with the following internal schema:
+```javascript
+const app = {
+
+    // space for the app's props
+    props: {},
+
+    // space for the app's store
+    store: {},
+
+    // space for the app's nodes
+    nodes: {
+
+        // node family 'events'
+        events: {},
+
+        // node family 'renderers'
+        renderers: {},
+
+        / node family 'actions'
+        actions: {}
+    }
+};
+```
+
+To add some functionality to your app, you need to use the node API:
+
+```javascript
+
+// configure node family 'actions', then add to it a node 'init'
+app.configure('actions')
+    .node('init', () => {
+        console.log('my app is initialized');
+    });
+```
+
+This will augment node family 'actions' with a node (functionality), called 'init'. After this action, your internal app schema will look like this:
+
+```javascript
+const app = {
+    props: {},
+    store: {},
+    nodes: {
+        events: {},
+        renderers: {},
+        actions: {
+            init: () => {
+                console.log('my app is initialized');
+            }
+        }
+    }
+};
+```
+
+You can chain node definitions:
+
+```javascript
+app.configure('actions')
+    .node('getData', () => {
+        return {data: 123};
+    });
+    .node('init', () => {
+        console.log('my app is initialized');
+    });
+```
+
+
+**In an ammo.app all functionality resides in nodes**
+
+An important take-away from the examples above is that in an ammo.app all functionality resides in nodes. Each of your methods is a node. A group of related-by-purpose nodes is called a node family. In the examples above events, renderers and actions are node families. Following this pattern, node family 'events' should contain only event handlers. Node family 'renderers' should contain only nodes concerned with the rendering of DOM nodes. Node family 'actions' should contain only nodes which expose app functionality, different from event-handling or rendering. By convention, all apps should contain an actions node family. In this node family, you need to have at a bare minimum an 'init' node, which will work as the app's entrypoint. Typically, the init node of an ammo.app serves as a middleware for connecting the app's nodes.
+
+###### Utilizing the ammo.app store
+
+Ammo.app supports the props/state convention, found in frameworks like React. This convention basically says that each app can have two separate objects - one for the app's props (read-only attributes) and one for the app's state (read/write attributes). The state is where mutable data should be stored.
+
+Here's how to initialize an ammo.app with props/state. We will be using another feature of ammo.app - the ability to define global apps.
+
+```javascript
+/* globals ammo */
+
+// define app's props
+const props = {
+    name: 'myApp',
+    global: true,
+    user: 'guest'
+};
+
+// define app's initial state
+const state = {
+    items: []
+};
+
+// create global app with props and state, and schema - events, renderers, action
+const app = ammo.app(props, state).schema('default');
+
+
+// you can now access your app from the window object
+window.myApp will be your app
+```
+
+The app's props are ready only. You can only retrieve them. Here's how to do it:
+
+```javascript
+
+// get app
+const app = window.myApp;
+
+// get all app props
+const appProps = app.getProps();
+
+// get specific app prop
+const appPropUser = app.getProps('user');
+```
+
+You can read and write to the app's state. Here's how to do it:
+
+```javascript
+
+// get app
+const app = window.myApp;
+
+// define some data
+const newItems = [{key: 'a'}, {key: 'b'}];
+
+// update app store
+app.updateStore('items', () => newItems);
+```
+
+The .updateStore() method takes a store key and a PURE function. The function must return the new value for that store key. This new returned value will replace the last value in the app, available on the requested store key. The .updateStore() method can also provide the last available value on the requested store key:
+
+```javascript
+app.updateStore('items', lastValues => [...lastValues, ...newItems]);
+```
+
+By utilizing the available argument `lastValues` you can augment the existing data, rather than replacing it.
+
+`Note:` In ammo.app state and store are the same thing.
+
+`Note:` Ammo.app follows the convention that each app can have its own store. There can be multiple sub-apps with their respective stores in your app. This creates a nice separation of concepts in terms of data management. Your entire app can be see as a group of smaller apps with specific purpose, each with their own self-managed store.
+
+###### Utilizing the ammo.app store with caching
+
+Another cool feature of ammo.app is its ability to provide seamless synchronization between your app's store and a configurable space in the browser's persistent storage facilities like localStorage. This functionality is available via the .syncWithPersistentStore() method. Here's how to take advantage of it:
+
+```javascript
+/* globals ammo */
+
+// define app's props
+const props = {
+    name: 'myApp',
+    global: true,
+    user: 'guest',
+    storeKey: 'myApp'
+};
+
+// define app's initial state
+const state = {
+    items: []
+};
+
+// create global app with props and state, and schema - events, renderers, action
+// also synchronize the app with localStorage, using store key 'myApp'
+const app = ammo.app(props, state).schema('default').syncWithPersistentStore;
+
+// you can now access your app from the window object
+window.myApp will be your app
+```
+
+With a single method call you have enabled powerful caching for your app's state. Now, every time you perform an update via .updateStore('storeKey', () => ['newData']) method, this data will be synchronized with the data, residing under localStorage::key('myApp'). This means your data will persist through page reloads. With this functionality, features like maintaining state of configurable UI, become trivial.
+
+`Note:` When you need to deal with state in your ammo.app always opt for the built-in state management facilities, rather than maintaining external objects which interact with the app via custom code. You will be rewarded with a much more elegant app structure and less worries related to state management.
+
+###### Inheritance in ammo.app
+
+Ammo.app supports inheritance via the .inherit() method. Use this method when you want your app to inherit functionality from another ammo.app:
+
+```javascript
+
+// add a node 'render' to node family 'renderers'
+myApp.configure('renderers')
+    .node('render', (target, html) => target.innerHTML = html);
+
+// add several nodes to node family 'actions'
+myApp.configure('actions')
+    .node('getData', () => [1, 2, 3, 4, 5])
+    .node('filterData', data => data.filter(item => item > 3))
+    .node('init', () => {
+        const actions = myApp.getNodes('actions');
+        const data = actions.getData();
+        console.log(`myApp initialized. Data: ${actions.filterData(data)}`)
+    });
+
+// create a new app and inherit all nodes from myApp
+const newApp = ammo.app().inherit(myApp);
+
+// create another app, this time inheriting only node family 'actions'
+const anotherApp = ammo.app().inherit(myApp, ['actions']);
+```
+
+As you can see you can inherit either the entire node tree of an app or just specific node families. Inheriting specific nodes from specific node families is currently not supported.
+
+`Note:` The actual inherit operation is not memory efficient - eg. all nodes to be inherited will be recreated in memory for the inheriting app. Ammo, in general, does not interact with the prototypical chain.
+
+###### Overwriting existing functionality in ammo.app
+
+Overwriting in ammo.app is available via the .overwrite() curried method. Here's how:
+
+```javascript
+
+// overwrite myApp's node family 'renderers'
+myApp.overwrite('renderers')
+    .node('render', (target, html) => target.insertAdjacentHTML('beforeend', html));
+```
+
+`Note:` The .overwrite() methods works just as .configure() - it gives access to the 'node' method. Each node defined under an .overwrite() will overwrite an existing node with the same node under the same node family.
+
+###### Calling and getting nodes in ammo.app
+
+To get a node, use the .getNode() method. To call a node, use the .callNode() method:
+
+```javascript
+
+// store node into a variable
+const filterData = myApp.getNode('actions', 'filterData');
+
+// call node directly
+myApp.callNode('actions', 'init');
+```
+
+`Note:` The .getNode() method is preferred when you need to invoke a node with arguments. The .callNode() method is preferred when the node has zero arguments.
+
+
+## Ammo.sequence
+
+Ammo.sequence exposes a simple promise-based API for creating sequential executions for groups of asynchronous requests. It has a very minimalistic design with just two public methods - .chain() and .execute(). Here's an example of ammo.sequence():
+
+```javascript
+ammo.sequence()
+    .chain(seq => setTimeout(() => {
+        console.log('timeout A');
+        seq.resolve();
+    }, 2500))
+    .chain(() => setTimeout(() => {
+        console.log('timeout B');
+    }, 1500))
+    .execute();
+```
+
+The code above will first execute the first chained method after 2500 milliseconds and after that it will execute the second chained method after 1500. Without a promise wrapping this executing the second method will be executed first. However, ammo.sequence governs exactly for that. So, with it you can create sequential chains of asynchronous methods.
+
+Ammo.sequence has the following options:
+
+```javascript
+ammo.sequence()
+    .chain(seq => {
+
+        // resolve current method and move on to the next chained method
+        seq.resolve(['someData']);
+
+        // reject current method and move on to the next chained method
+        seq.reject(new Error('Some error'));
+    })
+    .chain(seq => {
+
+        // store value, passed by the last successful resolve
+        const data = seq.response.value;
+
+        // store error, passed by the last failed reject
+        const err = seq.response.error;
+    })
+    .execute();
+```
+
+Using the the seq.resolve() and seq.reject() methods you can efficiently control the flow of data through the sequence as well as pass data from one chained method to the other.
+
+`Note:` The last chained method does not need to perform a seq.resolve() or seq.reject() operation. So unless you need to retrieve data from previously chained methods in the sequence, you can skip it altogether. This is demonstrated in the first ammo.sequence code example.
+
+## Notes
+
+Ammo also offers an experimental templating system with the .template() and .compile() methods. However, the usage of ES6 string literals make this system as well as most, if not all, javascript templating engines obsolete.
