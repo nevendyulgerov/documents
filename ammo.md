@@ -245,6 +245,8 @@ myApp.overwrite('renderers')
 
 `Note:` The .overwrite() methods works just as .configure() - it gives access to the 'node' method. Each node defined under an .overwrite() will overwrite an existing node with the same node under the same node family.
 
+`Note:` You cannot re-define nodes. The .configure('nodeFamily').node('nodeName') API will not allow you to replace existing nodes. The only way to reassign a node is by using the .overwrite() method.
+
 #### Calling and getting nodes in ammo.app
 
 To get a node, use the .getNode() method. To call a node, use the .callNode() method:
@@ -260,6 +262,23 @@ myApp.callNode('actions', 'init');
 
 `Note:` The .getNode() method is preferred when you need to invoke a node with arguments. The .callNode() method is preferred when the node has zero arguments.
 
+#### Other ammo.app methods
+
+There are several other methods available in ammo.app:
+
+```javascript
+// add a single node family 'templates' to your app
+myApp.augment('templates');
+
+// add node to a node family shorthand method
+myApp.addNode('templates', 'index', () => (`
+    <div class="template">My template</div>
+`));
+
+if ( myApp.nodeExists('templates', 'index') ) {
+    // node 'index', under node family 'templates' exist
+}
+```
 
 ## Ammo.sequence
 
