@@ -41,10 +41,10 @@ globalEvents.interceptViewLoading(() => {
 ```javascript
 /* globals globalEvents */
 
-// dispatch event for view loading
+// dispatch event for view ready
 globalEvents.dispatchViewReady();
 
-// intercept event for view loading
+// intercept event for view ready
 globalEvents.interceptViewReady(() => {
     // your callback code...
 });
