@@ -147,10 +147,10 @@ const widgetState = {
     title: 'Hey, this is the new title'
 };
 
-// dispatch event for widget changing with widgetName and widgetState
+// dispatch event for widget change with widgetName and widgetState
 globalEvents.dispatchWidgetChange(widgetName, widgetState);
 
-// intercept event for module ready
+// intercept event for widget ready
 globalEvents.interceptWidgetChange(widgetName, (event, options) => {
     switch (options.type) {
         case 'update-title':
