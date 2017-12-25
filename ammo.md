@@ -249,7 +249,7 @@ myApp.overwrite('renderers')
 
 #### Calling and getting nodes in ammo.app
 
-To get a node, use the .getNode() method. To call a node, use the .callNode() method:
+To get a node, use the .getNode() method. To directly call a node, use the .callNode() method:
 
 ```javascript
 
@@ -296,7 +296,7 @@ ammo.sequence()
     .execute();
 ```
 
-The code above will first execute the first chained method after 2500 milliseconds and after that it will execute the second chained method after 1500. Without a promise wrapping this executing the second method will be executed first. However, ammo.sequence governs exactly for that. So, with it you can create sequential chains of asynchronous methods.
+The code above will first execute the first chained method after 2500 milliseconds and after that it will execute the second chained method after 1500 milliseconds. Without a promise construct wrapping this execution the second method will be executed first. However, ammo.sequence governs exactly for that. So, with it you can create sequential chains of asynchronous methods.
 
 Ammo.sequence has the following options:
 
@@ -323,8 +323,8 @@ ammo.sequence()
 
 Using the the seq.resolve() and seq.reject() methods you can efficiently control the flow of data through the sequence as well as pass data from one chained method to the other.
 
-`Note:` The last chained method does not need to perform a seq.resolve() or seq.reject() operation. So unless you need to retrieve data from previously chained methods in the sequence, you can skip it altogether. This is demonstrated in the first ammo.sequence code example.
+`Note:` The last chained method does not need to perform a seq.resolve() or seq.reject() operation. It will be automatically executed as the last chained method. So unless you need to retrieve data from previously chained methods in the sequence, you can skip using the seq argument altogether. This is demonstrated in the first ammo.sequence code example.
 
 ## Notes
 
-Ammo also offers an experimental templating system with the .template() and .compile() methods. However, the usage of ES6 string literals make this system as well as most, if not all, javascript templating engines obsolete.
+Ammo also offers an experimental templating system with the .template() and .compile() methods. However, the usage of ES6 string literals make this system obsolete.
