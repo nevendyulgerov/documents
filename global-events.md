@@ -18,7 +18,7 @@ Currently, you can use globalEvents to notify/intercept that:
 - a module is ready or is changing
 - a widget is ready or is changing
 
-##### View is loading
+#### View is loading
 
 ```javascript
 /* globals globalEvents */
@@ -36,7 +36,7 @@ globalEvents.interceptViewLoading(() => {
 
 `Note:` The .interceptViewLoading() action will execute your callback when dispatchViewLoading is invoked.
 
-##### View is ready
+#### View is ready
 
 ```javascript
 /* globals globalEvents */
@@ -56,7 +56,7 @@ globalEvents.interceptViewReady(() => {
 
 `Note:` Since in Fantasy POS, the routes are designed to load a single view, you need to pass a single parameter to .interceptViewReady() - the callback for that global event. No view names are required to dispatch/intercept events for view loading.
 
-##### Module is ready
+#### Module is ready
 
 ```javascript
 /* globals globalEvents */
@@ -79,7 +79,7 @@ globalEvents.interceptModuleReady(moduleName, () => {
 
 `Note:` Since there are many modules in Fantasy POS, you need to specify which module you wish to dispatch and intercept ready events for via the moduleName param.
 
-##### Module is changing
+#### Module is changing
 Hooking to this event is a good idea when you want to remotely ask a module for updates. This usually happens when at some stage your code needs to communicate with modules.
 
 ```javascript
@@ -109,7 +109,7 @@ globalEvents.interceptModuleChange(moduleName, (event, options) => {
 
 `Note:` The .interceptModuleChange() hook must be invoked inside the changing module's definition in order to take advantage of its internal methods.
 
-##### Widget is ready
+#### Widget is ready
 
 ```javascript
 /* globals globalEvents */
@@ -132,7 +132,7 @@ globalEvents.interceptWidgetReady(widgetName, () => {
 
 `Note:` Since there are many widgets in Fantasy POS, you need to specify which widget you wish to dispatch and intercept events for via the widgetName param.
 
-##### Widget is changing
+#### Widget is changing
 Hooking to this event is a good idea when you want to remotely ask a widget for updates. This usually happens when at some stage your code needs to communicate with widgets.
 
 ```javascript
@@ -176,7 +176,7 @@ Module globalEvents resides in appDir/scripts/global-events.js. In order to exte
 
 ## Best Practices
 
-###### Keep the number of supported events to a bare MINIMUM.
+#### Keep the number of supported events to a bare MINIMUM.
 
 globalEvents is designed to maintain a small but globally applicable number of events. So, when wondering whether or not to extend globalEvents ask yourself the following question. Is this event usable by ALL other parts of the application? If the answer is no, then use a local strategy, rather than extending globalEvents with a specialized event.
 
