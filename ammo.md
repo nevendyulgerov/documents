@@ -4,7 +4,7 @@ Ammo is a core library, used extensively in the front-end code of Fantasy POS. I
 
 ## Purpose
 
-Ammo was developed with the goal to make heavy-in-size and heavy-upon-initialization libraries like jQuery and Dust obsolete. It offers common utilities for many of the available methods in jQuery, related to DOM manipulation. It exposes a stand-alone AJAX API for simple JSON-based requests. It also has a replacement for the events system available in jQuery. All of ammo's methods are light-weight and they apply minimum abstraction layers on top of standard ES6 code to keep them efficient and fast.
+Ammo was developed with the goal to make heavy-in-size and heavy-upon-initialization libraries like jQuery and Dust obsolete. It offers common utilities for many of the available methods in jQuery, related to DOM manipulation. It exposes a stand-alone AJAX API for simple JSON-based requests. It also has a replacement for the events system available in jQuery. All of ammo's methods are light-weight. They apply minimum abstraction layers on top of standard ES6 code to achieve the required functionality. This keeps the library fast and efficient.
 
 ## Usage
 
@@ -14,9 +14,9 @@ Some of the commonly used Ammo utilities are:
 - sequence() - a recursion-based promise implementation
 - select() and selectAll() - DOM-manipulation APIs
 
-##### Ammo.app
+### Ammo.app
 
-###### General examples
+#### General examples
 
 Ammo.app allows for the creation of elegant, encapsulated, functional apps with manageable store. This construct uses extensively the cascade and curry design patterns. Here's an example of how to use ammo.app:
 
@@ -96,9 +96,11 @@ app.configure('actions')
 
 **In an ammo.app all functionality resides in nodes**
 
-An important take-away from the examples above is that in an ammo.app all functionality resides in nodes. Each of your methods is a node. A group of related-by-purpose nodes is called a node family. In the examples above events, renderers and actions are node families. Following this pattern, node family 'events' should contain only event handlers. Node family 'renderers' should contain only nodes concerned with the rendering of DOM nodes. Node family 'actions' should contain only nodes which expose app functionality, different from event-handling or rendering. By convention, all apps should contain an actions node family. In this node family, you need to have at a bare minimum an 'init' node, which will work as the app's entrypoint. Typically, the init node of an ammo.app serves as a middleware for connecting the app's nodes.
+`Note:` An important take-away from the examples above is that in an ammo.app all functionality resides in nodes. Each of your methods is a node. A group of related-by-purpose nodes is called a node family. In the examples above events, renderers and actions are node families. Following this pattern, node family 'events' should contain only event handlers. Node family 'renderers' should contain only nodes concerned with the rendering of DOM nodes. Node family 'actions' should contain only nodes which expose app functionality, different from event-handling or rendering.
 
-###### Utilizing the ammo.app store
+`Note:` By convention, all apps should contain an actions node family. In this node family, you need to have at a bare minimum an 'init' node, which will work as the app's entrypoint. Typically, the init node of an ammo.app serves as a middleware for connecting the app's nodes.
+
+#### Utilizing the ammo.app store
 
 Ammo.app supports the props/state convention, found in frameworks like React. This convention basically says that each app can have two separate objects - one for the app's props (read-only attributes) and one for the app's state (read/write attributes). The state is where mutable data should be stored.
 
@@ -167,7 +169,7 @@ By utilizing the available argument `lastValues` you can augment the existing da
 
 `Note:` Ammo.app follows the convention that each app can have its own store. There can be multiple sub-apps with their respective stores in your app. This creates a nice separation of concepts in terms of data management. Your entire app can be see as a group of smaller apps with specific purpose, each with their own self-managed store.
 
-###### Utilizing the ammo.app store with caching
+#### Utilizing the ammo.app store with caching
 
 Another cool feature of ammo.app is its ability to provide seamless synchronization between your app's store and a configurable space in the browser's persistent storage facilities like localStorage. This functionality is available via the .syncWithPersistentStore() method. Here's how to take advantage of it:
 
@@ -189,7 +191,7 @@ const state = {
 
 // create global app with props and state, and schema - events, renderers, action
 // also synchronize the app with localStorage, using store key 'myApp'
-const app = ammo.app(props, state).schema('default').syncWithPersistentStore;
+const app = ammo.app(props, state).schema('default').syncWithPersistentStore();
 
 // you can now access your app from the window object
 window.myApp will be your app
@@ -199,7 +201,7 @@ With a single method call you have enabled powerful caching for your app's state
 
 `Note:` When you need to deal with state in your ammo.app always opt for the built-in state management facilities, rather than maintaining external objects which interact with the app via custom code. You will be rewarded with a much more elegant app structure and less worries related to state management.
 
-###### Inheritance in ammo.app
+#### Inheritance in ammo.app
 
 Ammo.app supports inheritance via the .inherit() method. Use this method when you want your app to inherit functionality from another ammo.app:
 
@@ -230,7 +232,7 @@ As you can see you can inherit either the entire node tree of an app or just spe
 
 `Note:` The actual inherit operation is not memory efficient - eg. all nodes to be inherited will be recreated in memory for the inheriting app. Ammo, in general, does not interact with the prototypical chain.
 
-###### Overwriting existing functionality in ammo.app
+#### Overwriting existing functionality in ammo.app
 
 Overwriting in ammo.app is available via the .overwrite() curried method. Here's how:
 
@@ -243,7 +245,7 @@ myApp.overwrite('renderers')
 
 `Note:` The .overwrite() methods works just as .configure() - it gives access to the 'node' method. Each node defined under an .overwrite() will overwrite an existing node with the same node under the same node family.
 
-###### Calling and getting nodes in ammo.app
+#### Calling and getting nodes in ammo.app
 
 To get a node, use the .getNode() method. To call a node, use the .callNode() method:
 
