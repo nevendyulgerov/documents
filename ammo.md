@@ -349,7 +349,7 @@ Using the the seq.resolve() and seq.reject() methods you can efficiently control
 
 ## Ammo.select/selectAll
 
-The .select() and .selectAll() methods expose functional, declarative DOM manipulation APIs for easy interactions with the DOM tree. The .select() method is used for single DOM nodes, while .selectAll() is designed to work with DOM node lists. Since both methods expose very similar APIs, we will use .selectAll most of the time.
+The .select() and .selectAll() methods expose functional, declarative DOM manipulation APIs for easy interactions with the DOM tree. The .select() method is used for single DOM nodes, while .selectAll() is designed to work with DOM node lists. Since both methods expose very similar APIs, we will use .selectAll in most of the examples to follow.
 
 Let's consider the following HTML markup:
 ```html
