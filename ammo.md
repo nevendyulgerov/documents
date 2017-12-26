@@ -400,6 +400,8 @@ ammo.selectAll('li', list)
 
 This time we utilized the .select() method to get the DOM list. Then we selected all items in this DOM list by passing the list as the second argument (context) to .selectAll(). After that we filtered and kept only items without class name 'selected'. Finally, we attached an event handler for each of the filtered items. Now, when you click on each of the items without class name 'selected' the callback logging the DOM node for that element will be outputted.
 
+`Note:` Most ammo methods concerned with DOM manipulations expose a second optional argument 'context' (DOM node), which can be used to optimize your DOM queries.
+
 Let's consider another, more advanced, example. For instance, you may want to filter some list items, then iterate them `over time` and for each iterated item you may want to modify its style and attributes:
 
 ```javascript
