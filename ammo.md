@@ -384,7 +384,7 @@ In the code above, we selected all `li` items on the page, then we filtered the 
 In case we want to get rather than log the results, we need to use the .get() method. Here's how:
 
 ```javascript
-const filteredItems = ammo.selectAll('li').filter('selected').get();
+const selectedItems = ammo.selectAll('li').filter('selected').get();
 ```
 
 Let's look at another example. This time we want to grab only items that do not have the selected class. We also want to optimize our selectAll query, using a context. Here's how:
