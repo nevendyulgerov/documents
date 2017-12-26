@@ -404,7 +404,7 @@ This time we utilized the .select() method to get the DOM `ul` list. Then we sel
 
 `Note:` Most ammo methods concerned with DOM manipulations expose a second optional argument 'context' (DOM node), which can be used to optimize your DOM queries.
 
-Let's consider another, more advanced, example. For instance, you may want to filter some list items, modify the style and attributes of each item and then iterate all items `over time` and for each iterated item. Finally notify, when the `over time` iteration completes.
+Let's consider another, more advanced, example. For instance, you may want to filter some list items, modify the style and attributes of each item and then iterate all items `over time`. Finally output some text, when the `over time` iteration completes.
 
 ```javascript
 ammo.selectAll('li', list)
