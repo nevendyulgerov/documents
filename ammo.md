@@ -391,21 +391,23 @@ Let's look at another example. This time we want to grab only items that do not 
 
 ```javascript
 
+// define context
 const list = ammo.select('.items').get();
 
+// select all li items available in context list
 ammo.selectAll('li', list)
     .filter(item => !item.ClassList.contains('selected'))
     .on('click', event => console.log(event.target));
 ```
 
-This time we utilized the .select() method to get the DOM list. Then we selected all items in this DOM list by passing the list as the second argument (context) to .selectAll(). After that we filtered and kept only items without class name 'selected'. Finally, we attached an event handler for each of the filtered items. Now, when you click on each of the items without class name 'selected' the callback logging the DOM node for that element will be outputted.
+This time we utilized the .select() method to get the DOM `ul` list. Then we selected all items in this DOM list by passing the list as the second argument (context) to .selectAll(). After that we filtered and kept only items without class name 'selected'. Finally, we attached an event handler for each of the filtered items. Now, when you click on each of the items without class name 'selected' the callback logging the DOM node for that element will be outputted.
 
 `Note:` Most ammo methods concerned with DOM manipulations expose a second optional argument 'context' (DOM node), which can be used to optimize your DOM queries.
 
 Let's consider another, more advanced, example. For instance, you may want to filter some list items, then iterate them `over time` and for each iterated item you may want to modify its style and attributes:
 
 ```javascript
-ammo.selectAll('li, list)
+ammo.selectAll('li', list)
     .filter(item => !item.ClassList.contains('selected'))
     .style('color', 'red')
     .attr('data-iterated', true)
@@ -418,7 +420,7 @@ The above selectAll will filter items with class name 'selected', for each item 
 
 Here's a similar example, achieved with a more functional approach:
 ```javascript
-ammo.selectAll('li, list)
+ammo.selectAll('li', list)
     .filter(item => !item.ClassList.contains('selected'))
     .style('color', (item, index) => index % 2 === 0 ? 'red' : 'green')
     .attr('data-iterated', (item, index) => index % 2 === 0)
