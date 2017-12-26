@@ -381,11 +381,10 @@ ammo.selectAll('li')
 
 In the code above, we selected all `li` items on the page, then we filtered the collection by class name. Only the items, containing class name 'selected' remained in the collection after the filter operation. Finally, we iterated over the filtered collection and outputted the DOM node for each item.
 
-In case we want to get not log the results, we need to use the .get() method. Here's how:
+In case we want to get rather than log the results, we need to use the .get() method. Here's how:
 
 ```javascript
-const filteredItems = ammo.selectAll('li')
-                          .filter(item => item.classList.contains('selected')).get();
+const filteredItems = ammo.selectAll('li').filter('selected').get();
 ```
 
 Let's look at another example. This time we want to grab only items that do not have the selected class. We also want to optimize our selectAll query, using a context. Here's how:
