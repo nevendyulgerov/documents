@@ -52,7 +52,7 @@ const app = {
 };
 ```
 
-To add some functionality to your app, you need to use the node API:
+The initialization of the above app can be read as 'create a local ammo.app with nodes schema - events, renderers, actions'.To add some functionality to your app, you need to use the node API:
 
 ```javascript
 
@@ -63,7 +63,7 @@ app.configure('actions')
     });
 ```
 
-This will augment node family 'actions' with a node (functionality), called 'init'. After this action, your internal app schema will look like this:
+The .configure('nodeFamily').node('nodeName', function) is a currying method. This will augment node family 'actions' with a node (functionality), called 'init'. After this action, your internal app schema will look like this:
 
 ```javascript
 const app = {
@@ -279,6 +279,17 @@ if ( myApp.nodeExists('templates', 'index') ) {
     // node 'index', under node family 'templates' exist
 }
 ```
+
+#### Ammo.app schemas
+
+There are several built-in schemas in ammo.app. These include:
+
+- default   - node families -> events, renderers, actions
+- app       - node families -> events, actions, common, modules, core
+- module    - node families -> events, actions, templates, views
+- widget    - node families -> events, actions, widgets
+
+`Note:` You can easily augment your app with the a new node family using the .augment('nodeFamily') method.
 
 ## Ammo.sequence
 
