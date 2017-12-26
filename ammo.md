@@ -167,7 +167,7 @@ By utilizing the available argument `lastValues` you can augment the existing da
 
 `Note:` In ammo.app state and store are the same thing.
 
-`Note:` Ammo.app follows the convention that each app can have its own store. There can be multiple sub-apps with their respective stores in your app. This creates a nice separation of concepts in terms of data management. Your entire app can be see as a group of smaller apps with specific purpose, each with their own self-managed store.
+`Note:` Ammo.app follows the convention that each app can have its own store. There can be multiple smaller apps with their respective stores in your app. This creates a nice separation of concepts in terms of data management. Your entire app can be seen as a group of smaller apps with specific purpose, each with their own self-managed store.
 
 #### Utilizing the ammo.app store with caching
 
@@ -199,7 +199,7 @@ window.myApp will be your app
 
 With a single method call you have enabled powerful caching for your app's state. Now, every time you perform an update via .updateStore('storeKey', () => ['newData']) method, this data will be synchronized with the data, residing under localStorage::key('myApp'). This means your data will persist through page reloads. With this functionality, features like maintaining state of configurable UI, become trivial.
 
-`Note:` When you need to deal with state in your ammo.app always opt for the built-in state management facilities, rather than maintaining external objects which interact with the app via custom code. You will be rewarded with a much more elegant app structure and less worries related to state management.
+`Note:` When you need to deal with state in an ammo.app always opt for the built-in state management facilities, rather than maintaining external objects which interact with the app via custom code. You will be rewarded with a much more elegant app structure and less worries related to state management.
 
 #### Inheritance in ammo.app
 
@@ -289,11 +289,22 @@ There are several built-in schemas in ammo.app. These include:
 - module    - node families -> events, actions, templates, views
 - widget    - node families -> events, actions, widgets
 
+You can apply any of these schemas, using the .schema() method:
+
+```javascript
+
+// create an app with the 'module' schema
+const moduleApp = ammo.app().schema('module');
+
+// create an app with the 'widget' schema
+const widgetApp = ammo.app().schema('widget');
+```
+
 `Note:` You can easily augment your app with the a new node family using the .augment('nodeFamily') method.
 
 ## Ammo.sequence
 
-Ammo.sequence exposes a simple promise-based API for creating sequential executions for groups of asynchronous requests. It has a very minimalistic design with just two public methods - .chain() and .execute(). Here's an example of ammo.sequence():
+Ammo.sequence exposes a simple promise-based API for creating sequential executions for groups of asynchronous methods. It has a very minimalistic design with just two public methods - .chain() and .execute(). Here's an example of ammo.sequence():
 
 ```javascript
 ammo.sequence()
@@ -307,7 +318,7 @@ ammo.sequence()
     .execute();
 ```
 
-The code above will first execute the first chained method after 2500 milliseconds and after that it will execute the second chained method after 1500 milliseconds. Without a promise construct wrapping this execution the second method will be executed first. However, ammo.sequence governs exactly for that. So, with it you can create sequential chains of asynchronous methods.
+The code above will first execute the first chained method after 2500 milliseconds and after that it will execute the second chained method after 1500 milliseconds. Without a promise construct wrapping this execution the second method will be executed first. However, ammo.sequence governs exactly for that. So, with it you can create sequential chains of asynchronous functions.
 
 Ammo.sequence has the following options:
 
@@ -336,6 +347,77 @@ Using the the seq.resolve() and seq.reject() methods you can efficiently control
 
 `Note:` The last chained method does not need to perform a seq.resolve() or seq.reject() operation. It will be automatically executed as the last chained method. So unless you need to retrieve data from previously chained methods in the sequence, you can skip using the seq argument altogether. This is demonstrated in the first ammo.sequence code example.
 
+## Ammo.select/selectAll
+
+The .select() and .selectAll() methods expose functional, declarative DOM manipulation APIs for easy interactions with the DOM tree. The .select() method is used for single DOM nodes, while .selectAll() is designed to work with DOM node lists. Since both methods expose very similar APIs, we will use .selectAll exclusively.
+
+Let's consider the following HTML markup:
+```html
+<ul class="items">
+    <li class="selected active">Item A</li>
+    <li class="selected">Item B</li>
+    <li>Item C</li>
+    <li>Item D</li>
+</ul>
+```
+
+Now, let's say that we want to get all <li> items, containing class name 'selected'. Here's how to do it with .selectAll():
+```javascript
+
+ammo.selectAll('li')
+    .filter(item => item.classList.contains('selected'))
+    .each(item => console.log(item));
+```
+
+In the code above, we selected all <li> items on the page, then we filtered the collection by class name. Only the items, containing class name 'selected' remained in the collection after the filter operation. Finally, we iterated over the filtered collection and outputted the DOM node for each item.
+
+In case we want to get not log the results, we need to use the .get() method. Here's how:
+
+```javascript
+const filteredItems = ammo.selectAll('li')
+                          .filter(item => item.classList.contains('selected')).get();
+```
+
+Let's look at another example. This time we want to grab only items that do not have the selected class. We also want to optimize our selectAll query, using a context. Here's how:
+
+```javascript
+
+const list = ammo.select('.items').get();
+
+ammo.selectAll('li', list)
+    .filter(item => !item.ClassList.contains('selected'))
+    .on('click', event => console.log(event.target));
+```
+
+This time we utilized the .select() method to get the DOM list. Then we selected all items in this DOM list by passing the list as the second argument (context) to .selectAll(). After that we filtered and kept only items without class name 'selected'. Finally, we attached an event handler for each of the filtered items. Now, when you click on each of the items without class name 'selected' the callback logging the DOM node for that element will be outputted.
+
+Let's consider another, more advanced, example. For instance, you may want to filter some list items, then iterate them `over time` and for each iterated item you may want to modify its style and attributes:
+
+```javascript
+ammo.selectAll('li, list)
+    .filter(item => !item.ClassList.contains('selected'))
+    .style('color', 'red')
+    .attr('data-iterated', true)
+    .async(resolve => setTimeout(() => resolve(), 1000), () => {
+        console.log('all items iterated');
+    });
+```
+
+The above selectAll will filter items with class name 'selected', for each item it will modify its color. Then it will also apply for each item an attribute 'data-iterated' set to true. Finally, each item will be iterated in an asynchronous way over 1000 milliseconds. After the iteration has finished, a message 'all items iterated' will be outputted to the console.
+
+Here's a similar example, achieved with a more functional approach:
+```javascript
+ammo.selectAll('li, list)
+    .filter(item => !item.ClassList.contains('selected'))
+    .style('color', (item, index) => index % 2 === 0 ? 'red' : 'green')
+    .attr('data-iterated', (item, index) => index % 2 === 0)
+    .async(resolve => setTimeout(() => resolve(), 1000), () => {
+        console.log('all items iterated');
+    });
+```
+
+The code does mostly the same thing with the exception of the .style() and .attr() methods. As you can see these methods work with mixed arguments. You can pass as the second argument either a string variable, which will be directly applied over the item's prop. Alternatively, you can use a function (modifier) which contains as arguments some useful data such as the DOM node of the currently iterated item as well as its index. These two arguments allow for more advanced evaluations, which may be required to determine the type of change over the item's style or attribute.
+
 ## Notes
 
-Ammo also offers an experimental templating system with the .template() and .compile() methods. However, the usage of ES6 string literals make this system obsolete.
+Ammo also offers an experimental templating system with the .template() and .compile() methods. The .template() method is especially interesting as it offers utilities for optimized, partially managed DOM updates. However, the usage of ES6 string literals make these systems somewhat obsolete.
