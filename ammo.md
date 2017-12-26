@@ -365,9 +365,19 @@ Now, let's say that we want to get all `li` items, containing class name 'select
 ```javascript
 
 ammo.selectAll('li')
+    .filter('selected')
+    .each(item => console.log(item));
+```
+
+Alternatively, you can filter items using a function:
+```javascript
+
+ammo.selectAll('li')
     .filter(item => item.classList.contains('selected'))
     .each(item => console.log(item));
 ```
+
+`Note:` Both code snippets do exactly the same thing.
 
 In the code above, we selected all `li` items on the page, then we filtered the collection by class name. Only the items, containing class name 'selected' remained in the collection after the filter operation. Finally, we iterated over the filtered collection and outputted the DOM node for each item.
 
