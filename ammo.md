@@ -349,7 +349,7 @@ Using the the seq.resolve() and seq.reject() methods you can efficiently control
 
 ## Ammo.select/selectAll
 
-The .select() and .selectAll() methods expose functional, declarative DOM manipulation APIs for easy interactions with the DOM tree. The .select() method is used for single DOM nodes, while .selectAll() is designed to work with DOM node lists. Since both methods expose very similar APIs, we will use .selectAll exclusively.
+The .select() and .selectAll() methods expose functional, declarative DOM manipulation APIs for easy interactions with the DOM tree. The .select() method is used for single DOM nodes, while .selectAll() is designed to work with DOM node lists. Since both methods expose very similar APIs, we will use .selectAll most of the time.
 
 Let's consider the following HTML markup:
 ```html
@@ -361,7 +361,7 @@ Let's consider the following HTML markup:
 </ul>
 ```
 
-Now, let's say that we want to get all <li> items, containing class name 'selected'. Here's how to do it with .selectAll():
+Now, let's say that we want to get all `li` items, containing class name 'selected'. Here's how to do it with .selectAll():
 ```javascript
 
 ammo.selectAll('li')
@@ -369,7 +369,7 @@ ammo.selectAll('li')
     .each(item => console.log(item));
 ```
 
-In the code above, we selected all <li> items on the page, then we filtered the collection by class name. Only the items, containing class name 'selected' remained in the collection after the filter operation. Finally, we iterated over the filtered collection and outputted the DOM node for each item.
+In the code above, we selected all `li` items on the page, then we filtered the collection by class name. Only the items, containing class name 'selected' remained in the collection after the filter operation. Finally, we iterated over the filtered collection and outputted the DOM node for each item.
 
 In case we want to get not log the results, we need to use the .get() method. Here's how:
 
