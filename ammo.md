@@ -305,7 +305,7 @@ const moduleApp = ammo.app().schema('module');
 const widgetApp = ammo.app().schema('widget');
 ```
 
-`Note:` You can easily augment your app with the a new node family using the .augment('nodeFamily') method.
+`Note:` You can easily augment your app with a new node family using the .augment('nodeFamily') method.
 
 ## Ammo.sequence
 
