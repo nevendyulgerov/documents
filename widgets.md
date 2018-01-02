@@ -86,11 +86,9 @@ const domWidget = ammo.select('[data-widget="multiselect"]').get();
 multiselectWidget(domWidget);
 ```
 
-`Note:` Currently, you need to pass the DOM node for the widget you with to manually initialize. Optionally, you can pass a props object in case you wish to customize the widget upon initialization.
+`Note:` Currently, you need to pass the DOM node for the widget you wish to manually initialize. Optionally, you can pass a props object in case you wish to customize the widget upon initialization.
 
 ## How to extend widgets
-
-The globally accessible widgets module has all the core functionality, required to properly manage widgets. Update there, if any required, should not be significant.
 
 In order to add a new widget, you need to add a new path under appDir/widgets, named after the new widget. This path should contain the widget's javascript file and an optional scss file for the widget's styles.
 
