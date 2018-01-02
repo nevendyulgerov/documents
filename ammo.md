@@ -278,9 +278,7 @@ const actions = myApp.getNodes('actions');
 myApp.augment('templates');
 
 // add node to a node family shorthand method
-myApp.addNode('templates', 'index', () => (`
-    <div class="template">My template</div>
-`));
+myApp.addNode('templates', 'index', () => (`<div class="template">My template</div>`));
 
 if ( myApp.nodeExists('templates', 'index') ) {
     // node 'index', under node family 'templates' exist
