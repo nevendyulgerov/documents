@@ -24,7 +24,7 @@ Ammo.app allows for the creation of elegant, encapsulated, functional apps with 
 /* globals ammo */
 
 // create local app with a 'default' schema
-const app = ammo.app().default('schema');
+const app = ammo.app().schema('default');
 ```
 
 This creates a local app with the following internal schema:
