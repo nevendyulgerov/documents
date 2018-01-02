@@ -1,13 +1,11 @@
 # Fantasy POS - Dependencies
 
-An overview utilized libraries and other dependencies.
-
 Fantasy POS uses a number of libraries to enhance and extend its functionality. Several libraries are used as base for building other libraries. These include:
 
 - jquery
 - initialzr
 
-Another extensively uses library is ammo.js - it offers utility-belt methods. More on ammo can be found in its dedicated documentation.
+Another extensively used library is ammo.js - it offers utility-belt methods. More on ammo can be found in its dedicated documentation.
 
 ## Libraries breakdown
 
