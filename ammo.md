@@ -267,6 +267,13 @@ myApp.callNode('actions', 'init');
 There are several other methods available in ammo.app:
 
 ```javascript
+
+// get all app nodes
+const nodes = myApp.getNodes();
+
+// get nodes from specific node family
+const actions = myApp.getNodes('actions');
+
 // add a single node family 'templates' to your app
 myApp.augment('templates');
 
