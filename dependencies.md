@@ -12,6 +12,7 @@ Another extensively used library is ammo.js - it offers utility-belt methods. Mo
 Here's a breakdown of the other libraries uses in Fantasy POS:
 
 - bootstrap - currently only bootstrap styles are uses in the app
+- ammo - utility belt
 - dust - the templating engine uses in Fantasy POS
 - flatpickr - date-time picker
 - font-awesome - provides icons
