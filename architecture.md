@@ -26,4 +26,4 @@ Modules define module-related functionality. A module typically contains a sass 
 
 ## Widgets
 
-Widgets define widget-related functionality.  A widget typically contains a sass file, defining its styles and a javascript file, defining its functionality
+Widgets define widget-related functionality.  A widget typically contains a sass file, defining its styles and a javascript file, defining its functionality.
