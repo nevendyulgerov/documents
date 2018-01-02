@@ -348,7 +348,7 @@ ammo.sequence()
     .execute();
 ```
 
-Using the the seq.resolve() and seq.reject() methods you can efficiently control the flow of data through the sequence as well as pass data from one chained method to the other.
+Using the seq.resolve() and seq.reject() methods you can efficiently control the flow of data through the sequence as well as pass data from one chained method to the other.
 
 `Note:` The last chained method does not need to perform a seq.resolve() or seq.reject() operation. It will be automatically executed as the last chained method. So unless you need to retrieve data from previously chained methods in the sequence, you can skip using the seq argument altogether. This is demonstrated in the first ammo.sequence code example.
 
