@@ -238,9 +238,12 @@ Once you initialize your app, you can play with the store to see the results:
 ```javascript
 
 // this update will succeed, as you pass a value matching the item's type
-myApp.updateStore('settings', () => ({
-	test: 'abc'
-}));
+myApp.updateStore('settings', () => {
+    return {
+        a: 'test',
+        b: 123
+    };
+});
 
 // this update will fail, as you pass a value not matching the item's type
 myApp.updateStore('settings', () => 'abc');
