@@ -506,7 +506,7 @@ The code does mostly the same thing with the exception of the .style() and .attr
 
 Ammo also offers an experimental templating system with the .template() and .compile() methods. The .template() method is especially interesting as it offers utilities for optimized, partially managed DOM updates. However, the usage of ES6 string literals make these systems somewhat obsolete.
 
-Ammo comes with many other public methods such as
+Ammo comes with many other public methods such as:
 
 - `.recurIter()` - recursive iterator
 - `.poll()` - polling iterator
