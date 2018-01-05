@@ -254,7 +254,7 @@ myApp.updateStore('settings', () => 'abc');
 
 `Note:` Remember that all type checking happens at runtime. This means that strong types are mostly useful for development since they can expose potential defects related to types when the update happens. Do not rely on strong types in production.
 
-`Note:` Available types for strong types are:
+`Note:` The available strong types are:
 
 - 'number' - accepts numbers which return false on NaN checks
 - 'string' - accepts strings
