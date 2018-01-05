@@ -254,14 +254,15 @@ myApp.updateStore('settings', () => 'abc');
 `Note:` Remember that all type checking happens at runtime. This means that strong types are mostly useful for development since they can expose potential defects related to types when the update happens. Do not rely on strong types in production.
 
 `Note:` Available types for strong types are:
-'number' - accepts numbers which return false on NaN checks
-'string' - accepts strings
-'bool' - accepts boolean
-'object' - accepts non-array, non-null objects
-'null' - accepts null
-'function' - accepts function
-'array' - accepts non-object arrays
-'undefined' - accepts undefined
+
+- 'number' - accepts numbers which return false on NaN checks
+- 'string' - accepts strings
+- 'bool' - accepts boolean
+- 'object' - accepts non-array, non-null objects
+- 'null' - accepts null
+- 'function' - accepts function
+- 'array' - accepts non-object arrays
+- 'undefined' - accepts undefined
 
 `Note:` Internally, the checks for strong types rely on the type checkers methods isNum, isStr, isBool, etc. These methods are directly available from ammo.
 
