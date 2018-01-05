@@ -201,8 +201,6 @@ With a single method call you have enabled powerful caching for your app's state
 
 `Note:` When you need to deal with state in an ammo.app always opt for the built-in state management facilities, rather than maintaining external objects which interact with the app via custom code. You will be rewarded with a much more elegant app structure and less worries related to state management.
 
-
-
 #### Strong types in ammo.app store
 
 Ammo.app can also govern the type of the data, stored in its store. This means that you can create strongly-typed apps with ammo.app. Here's an example of how to do this:
@@ -225,10 +223,12 @@ const myApp = ammo.app(props, store).schema('default');
 To use strong types you need to pass the attribute 'strongTypes' set to true as part of the app's props. Strong types are applicable only for store data. The format in which you need to store a strong-typed item is:
 
 ```javascript
+/*
 [{storeKey}]: {
-	type: {itemType},
-	value: {initialItemValue}
+    type: {itemType},
+    value: {initialItemValue}
 }
+```
 
 So, each item in your store needs to be wrapped in an object. In this object, you need to have two properties, one for the type and one for the initial value.
 
@@ -250,7 +250,7 @@ myApp.updateStore('settings', () => 'abc');
 `Note:` Remember that all type checking happens at runtime. This means that strong types are mostly useful for development since they can expose potential defects related to types when the update happens. Do not rely on strong types in production.
 
 `Note:` Available types for strong types are:
-'number' - accepts numbers which return false on NaN checks 
+'number' - accepts numbers which return false on NaN checks
 'string' - accepts strings
 'bool' - accepts boolean
 'object' - accepts non-array, non-null objects
