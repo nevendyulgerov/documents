@@ -205,7 +205,7 @@ With a single method call you have enabled powerful caching for your app's state
 
 #### Strong types in ammo.app store
 
-Ammo.app can also govern the type of the data, stored in its store. This means that you can create strongly-tped apps with ammo.app. Here's an example of how to do this:
+Ammo.app can also govern the type of the data, stored in its store. This means that you can create strongly-typed apps with ammo.app. Here's an example of how to do this:
 
 ```javascript
 
