@@ -267,6 +267,8 @@ myApp.updateStore('settings', () => 'abc');
 
 `Note:` Internally, the checks for strong types rely on the type checker methods isNum, isStr, isBool, etc. These methods are directly available from ammo.
 
+`Note:` Strong types are achieved with ES6's proxy implementation and the usage of trap for the set method.
+
 #### Inheritance in ammo.app
 
 Ammo.app supports inheritance via the .inherit() method. Use this method when you want your app to inherit functionality from another ammo.app:
