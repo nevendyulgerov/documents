@@ -22,8 +22,8 @@ Scripts define core-specific functionality. Under scripts you will find a multit
 
 ## Modules
 
-Modules define module-related functionality. A module typically contains a sass file, defining its styles and a javascript file, defining its functionality.
+Modules define module-related functionality. A module typically contains a sass file, defining its styles and a javascript file, defining its functionality. Oftentimes, a module can also contain a html file, defining the base html markup for the module.
 
 ## Widgets
 
-Widgets define widget-related functionality.  A widget typically contains a sass file, defining its styles and a javascript file, defining its functionality.
+Widgets define widget-related functionality.  A widget typically contains a sass file, defining its styles and a javascript file, defining its functionality. Widgets define their html markup through the use of internal UI functions.
