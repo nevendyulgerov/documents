@@ -228,6 +228,7 @@ To use strong types you need to pass the attribute 'strongTypes' set to true as 
     type: {itemType},
     value: {initialItemValue}
 }
+*/
 ```
 
 So, each item in your store needs to be wrapped in an object. In this object, you need to have two properties, one for the type and one for the initial value.
