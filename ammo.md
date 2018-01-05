@@ -250,7 +250,7 @@ myApp.updateStore('settings', () => {
 myApp.updateStore('settings', () => 'abc');
 ```
 
-`Note:` It is strongly recommended that you define all of your ammo.apps' stores as strongTyped stores. This will increase the resiliance and predictability of your applications.
+`Note:` It is strongly recommended that you define all of your ammo.apps' stores as strong-typed stores. This will increase the resilience and predictability of your applications.
 
 `Note:` Remember that all type checking happens at runtime. This means that strong types are mostly useful for development since they can expose potential defects related to types when the update happens. Do not rely on strong types in production.
 
