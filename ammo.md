@@ -209,12 +209,12 @@ Ammo.app can also govern the type of the data, stored in its store. This means t
 
 // define props with the attribute 'strongTypes' set to true
 const props = {
-	strongTypes: true
+    strongTypes: true
 };
 
 // define a store with some strong-typed data
 const store = {
-	settings: {type: 'object', value: {}}
+    settings: {type: 'object', value: {}}
 };
 
 // initialize an app with strong types for its store with schema - events, renderers, actions
@@ -246,6 +246,7 @@ myApp.updateStore('settings', () => {
 });
 
 // this update will fail, as you pass a value not matching the item's type
+// check the console for the exact error
 myApp.updateStore('settings', () => 'abc');
 ```
 
@@ -264,7 +265,7 @@ myApp.updateStore('settings', () => 'abc');
 - 'array' - accepts non-object arrays
 - 'undefined' - accepts undefined
 
-`Note:` Internally, the checks for strong types rely on the type checkers methods isNum, isStr, isBool, etc. These methods are directly available from ammo.
+`Note:` Internally, the checks for strong types rely on the type checker methods isNum, isStr, isBool, etc. These methods are directly available from ammo.
 
 #### Inheritance in ammo.app
 
