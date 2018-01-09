@@ -188,4 +188,6 @@ const indexTemplate = window.myModule.getNode('templates', 'index');
 const html = indexTemplate();
 ```
 
-All views and template have direct access to the module's store via `myModule.getStore('storeKey')`. All views can write to the module's store view `myModule.updateStore('storeKey', () => [])`.
+`Note:` All views have direct access to the module's store via `myModule.getStore('storeKey')`.
+
+`Note:` All views can write to the module's store view `myModule.updateStore('storeKey', () => [])`.
