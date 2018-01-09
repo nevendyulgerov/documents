@@ -1,6 +1,6 @@
 # Fantasy POS - Modules
 
-In Fantasy POS modules are self-contained functionalities, which may or may not be globally available. Modules reside in appDir/modules. Typically, modules manage most of the current view.
+In Fantasy POS modules are self-contained, mostly globally available, functionalities. Modules reside in appDir/modules. Typically, modules manage all functionality available at the current route.
 
 ## Structure
 
@@ -103,9 +103,6 @@ Let's look at a more complicated module, which needs 2 views (search, results) a
             if (ammo.hasMethod(views, view)) {
                 views[view]();
             }
-        })
-        .node('init', () => {
-            console.log(`module 'myModule' initialized.`);
         });
 })(window);
 ```
