@@ -377,6 +377,18 @@ myApp.addNode('templates', 'index', () => (`<div class="template">My template</d
 if ( myApp.nodeExists('templates', 'index') ) {
     // node 'index', under node family 'templates' exist
 }
+
+// get persistent store
+const persistentStore = myApp.getPersistentStore();
+
+// clear persistent store for app
+myApp.clearPersistentStore();
+
+// add custom schema (note that this schema will not be automatically applied to the app)
+myApp.addSchema('custom', ['ui', 'actions']);
+
+// add schema 'custom' to the app (note that this will add only the node family 'ui' to the app, since 'actions' is already defined)
+myApp.schema('custom');
 ```
 
 ## Ammo.sequence

@@ -101,7 +101,7 @@ Let's look at a more complicated module, which needs 2 views (search, results) a
             const { views } = module.getNodes();
 
             if (ammo.hasMethod(views, view)) {
-                views[view]();
+                views[view](ammo.app().schema('default'));
             }
         });
 })(window);
@@ -110,10 +110,8 @@ Let's look at a more complicated module, which needs 2 views (search, results) a
 ```javascript
 // appDir/modules/my-module/search/index.js
 
-// add view 'search' to global ammo.app
-myModule.addNode('views', 'search', () => {
-    const view = ammo.app().schema('default');
-
+// add view 'search' to module 'myModule'
+myModule.addNode('views', 'search', view => {
     view.configure('actions')
         .node('init', () => {
             console.log(`module 'myModule' - view 'search' initialized`);
@@ -126,10 +124,8 @@ myModule.addNode('views', 'search', () => {
 ```javascript
 // appDir/modules/my-module/details/index.js
 
-// add view 'details' to global ammo.app
-myModule.addNode('views', 'details', () => {
-    const view = ammo.app().schema('default');
-
+// add view 'details' to module 'myModule'
+myModule.addNode('views', 'details', view => {
     view.configure('actions')
         .node('init', () => {
             console.log(`module 'myModule' - view 'details' initialized`);
@@ -142,13 +138,41 @@ myModule.addNode('views', 'details', () => {
 ```javascript
 // appDir/modules/my-module/my-module-templates.js
 
-// add template 'index' to global ammo.app
+// add template 'index' to module 'myModule'
 myModule.addNode('templates', 'index', () => {`
     <div data-module="myModule" template"index">Index template</div>
 `});
 ```
 
-First, we create a global ammo.app 'myModule' and we sync its store with localStorage, at key 'myModuleStore'. Now all store data for the module is persistent. Then, in separate files we define the module's views 'search' and 'details'. Notice than internally, these views also use ammo.app on a local scale. Finally, we create a templates file with a single template 'index'.
+First, we create a global ammo.app 'myModule' and we sync its store with localStorage, at key 'myModuleStore'. Now all store data for the module is persistent.  Notice that we also define an .initView() node under 'actions'.
+
+Then, in separate files we define the module's views 'search' and 'details'. Notice than internally, these views are fed their respective view, which is also an ammo.app. The view construct is passed to the selected view in the .initView() method, part of module 'myModule'. Also, note that in this example a view does not have any props or state. This is because, by convention, all state should be defined within the module itself, in this case within 'myModule'. If a view requires access to the module's state, this can be achieved in the following way:
+
+```javascript
+// using view 'search'
+// appDir/modules/my-module/search/index.js
+
+// add view 'search' to module 'myModule'
+myModule.addNode('views', 'search', view => {
+    view.configure('actions')
+        .node('init', () => {
+            console.log(`module 'myModule' - view 'search' initialized`);
+
+            // get module props
+            const props = myModule.getProps();
+
+            // get module store
+            const store = myModule.getStore();
+
+            // update module store
+            myModule.updateStore('accounts', () => []);
+        });
+
+    view.callNode('actions', 'init');
+});
+```
+
+Finally, we create a templates file with a single template 'index'.
 
 In the above example the views and templates are encapsulated within 'myModule'. To invoke a view, you need to use:
 
