@@ -40,7 +40,7 @@ The simplest way to define a module is by using the module pattern and globaliza
 })(window);
 ```
 
-The above code creates a globally available module 'myModule' with a public method 'init', which can be invoked from `window.myModule.init()`. This type of architecture is best suited from small modules, due to the fact that the internal structure of the module vastly depends on the programmer's preferences and coding style. You also need to define internal structure for separating the model, view and controller. This can be problematic for bigger modules, where strong, predictable structure is vital.
+The above code creates a globally available module 'myModule' with a public method 'init', which can be invoked from `window.myModule.init()`. This type of architecture is best suited from small modules, due to the fact that the internal structure of the module vastly depends on the programmer's preferences and coding style. You need to define internal structure for separating the model, view and controller. This can be problematic for bigger modules, where strong, predictable structure is vital.
 
 Another weakness of this pattern is that it does not offer a good way of managing module views and templates. Views contain view-specific functionality, separated in a stand alone file. Also, no out-of-the-box facilities for managing state are available with this approach.
 
