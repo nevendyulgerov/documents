@@ -40,9 +40,9 @@ The simplest way to define a module is by using the module pattern and globaliza
 })(window);
 ```
 
-The above code creates a globally available module 'myModule' with a public method 'init', which can be invoked from `window.myModule.init()`. This type of architecture is best suited from small modules, due to the fact that the internal structure of the module vastly depends on the programmer's preferences and coding style. This can be problematic for bigger modules, where strong structure is vital.
+The above code creates a globally available module 'myModule' with a public method 'init', which can be invoked from `window.myModule.init()`. This type of architecture is best suited from small modules, due to the fact that the internal structure of the module vastly depends on the programmer's preferences and coding style. This can be problematic for bigger modules, where strong, predictable structure is vital.
 
-Another weakness of this pattern is that it does not offer a good way of managing module views and templates. Views contain view-specific functionality, separated in a stand alone file.
+Another weakness of this pattern is that it does not offer a good way of managing module views and templates. Views contain view-specific functionality, separated in a stand alone file. Also, no out-of-the-box facilities for managing state are available with this approach. On top of this, you also need to define internal structure for separating the model, view and controller.
 
  If you need to define views/templates using the above structure, each of the view and the templates wrapper should also be globalized (alternatives are available but they lack good structure). Remember that in Fantasy POS a module often contains several views plus an optional (separate) templates file.
 
