@@ -10,6 +10,161 @@ A module contains several files:
 
 - a sass file, named after the module - this file contains the core module styles. This file can be found under appDir/modules/{selectedModule}/
 
+- a javascript file, designed to hold all module templates. This file can be found under appDir/modules/{selectedModule}
+
 - a module may also have views. Each view is located under appDir/modules/{selectedModule}/ and contains a separate javascript and sass file for its functionality and styles.
 
 In most cases, modules are globally defined objects, accessible from window[{selectedModule}], where `selectedModule` is the name of the module you wish to interact with. Modules' views may be globally accessible or encapsulated within the module.
+
+## Architecture
+
+There are two distinct architectures utilized for defining modules in Fantasy POS. Depending on the module's desired functionality, scale and complexity, the first may be more suited than the latter and vise versa.
+
+### Module pattern plus globalization
+The simplest way to define a module is by using the module pattern and globalization:
+
+```javascript
+// appDir/modules/my-module/my-module.js
+
+// create a global modula
+(base => {
+    base.myModule = (() => {
+
+        const init = () => {
+            console.log(`module 'myModule' initialized.`);
+        };
+
+        // Public API
+        return { init };
+    })();
+})(window);
+```
+
+The above code creates a globally available module 'myModule' with a public method 'init', which can be invoked from `window.myModule.init()`. This type of architecture is best suited from small modules, due to the fact that the internal structure of the module vastly depends on the programmer's preferences and coding style. This can be problematic for bigger modules, where strong structure is vital.
+
+Another weakness of this pattern is that it does not offer a good way of managing module views and templates. Views contain view-specific functionality, separated in a stand alone file.
+
+ If you need to define views/templates using the above structure, each of the view and the templates wrapper should also be globalized (alternatives are available but they lack good structure). Remember that in Fantasy POS a module often contains several views plus an optional (separate) templates file.
+
+### Ammo.app pattern plus partial globalization
+Ammo.app offers a more robust way of creating modules and managing their views:
+
+```javascript
+// appDir/modules/my-module/my-module.js
+
+// create global module
+(() => {
+    const props = {
+        name: 'myModule',
+        global: true
+    };
+    const module = ammo.app(props).schema('module');
+
+    module.configure('actions')
+        .node('init', () => {
+            console.log(`module 'myModule' initialized.`);
+        });
+})(window);
+```
+
+The above code creates a global ammo.app available under 'myModule'. To call the init() node use:
+
+```javascript
+window.myModule.callNode('actions', 'init');
+```
+
+Ammo.app offers a superior way of creating modules on a global scale thanks to the exposed rigid API for interacting with the app. With ammo.app, module 'myModule' takes advantage of a several key benefits:
+
+- ability to easily manage the module's props and store
+- ability to synchronize the module's store with localStorage (via .syncWithPersistentStore() method)
+- ability to manage views without globalizing them
+
+Let's look at a more complicated module, which needs 2 views (search, results) and 1 template (index). We'll be utilizing ammo.app again:
+
+```javascript
+// appDir/modules/my-module/my-module.js
+
+// create global module
+(() => {
+    const props = {
+        name: 'myModule',
+        global: true,
+        storeKey: 'myModuleStore'
+    };
+    const store = {
+        accounts: []
+    };
+    const module = ammo.app(props, store).schema('module').syncWithPersistentStore();
+
+    module.configure('actions')
+        .node('initView', view => {
+            const { views } = module.getNodes();
+
+            if (ammo.hasMethod(views, view)) {
+                views[view]();
+            }
+        })
+        .node('init', () => {
+            console.log(`module 'myModule' initialized.`);
+        });
+})(window);
+```
+
+```javascript
+// appDir/modules/my-module/search/index.js
+
+// add view 'search' to global ammo.app
+myModule.addNode('views', 'search', () => {
+    const view = ammo.app().schema('default');
+
+    view.configure('actions')
+        .node('init', () => {
+            console.log(`module 'myModule' - view 'search' initialized`);
+        });
+
+    view.callNode('actions', 'init');
+});
+```
+
+```javascript
+// appDir/modules/my-module/details/index.js
+
+// add view 'details' to global ammo.app
+myModule.addNode('views', 'details', () => {
+    const view = ammo.app().schema('default');
+
+    view.configure('actions')
+        .node('init', () => {
+            console.log(`module 'myModule' - view 'details' initialized`);
+        });
+
+    view.callNode('actions', 'init');
+});
+```
+
+```javascript
+// appDir/modules/my-module/my-module-templates.js
+
+// add template 'index' to global ammo.app
+myModule.addNode('templates', 'index', () => {`
+    <div data-module="myModule" template"index">Index template</div>
+`});
+```
+
+First, we create a global ammo.app 'myModule' and we sync its store with localStorage, at key 'myModuleStore'. Now all store data for the module is persistent. Then, in separate files we define the module's views 'search' and 'details'. Notice than internally, these views also use ammo.app on a local scale. Finally, we create a templates file with a single template 'index'.
+
+In the above example the views and templates are encapsulated within 'myModule'. To invoke a view, you need to use:
+
+```javascript
+const initView = window.myModule.getNode('actions', 'initView');
+initView('search');
+```
+
+To invoke a template, you need to use:
+
+```javascript
+const indexTemplate = window.myModule.getNode('templates', 'index');
+const html = indexTemplate();
+```
+
+All views and template have direct access to the module's store via `myModule.getStore('storeKey')`. All views can write to the module's store view `myModule.updateStore('storeKey', () => [])`.
