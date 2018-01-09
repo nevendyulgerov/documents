@@ -79,7 +79,7 @@ Ammo.app offers a superior way of creating modules on a global scale thanks to t
 - ability to synchronize the module's store with localStorage (via .syncWithPersistentStore() method)
 - ability to manage views without globalizing them
 
-Let's look at a more complicated module, which needs 2 views (search, results) and 1 template (index). We'll be utilizing ammo.app again:
+Let's look at a more complicated module, which needs 2 views (search, results) and 1 template (index). The module also requires a store and caching for it. We'll be utilizing ammo.app again:
 
 ```javascript
 // appDir/modules/my-module/my-module.js
