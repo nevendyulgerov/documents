@@ -146,7 +146,7 @@ myModule.addNode('templates', 'index', () => {`
 
 First, we create a global ammo.app 'myModule' and we sync its store with localStorage, at key 'myModuleStore'. Now all store data for the module is persistent.  Notice that we also define an .initView() node under 'actions'.
 
-Then, in separate files we define the module's views 'search' and 'details'. Notice than internally, these views are fed their respective view, which is also an ammo.app. The view construct is passed to the selected view in the .initView() method, part of module 'myModule'. Also, note that in this example a view does not have any props or state. This is because, by convention, all state should be defined within the module itself, in this case within 'myModule'. If a view requires access to the module's state, this can be achieved in the following way:
+Then, in separate files we define the module's views 'search' and 'details'. Notice than internally, these views are fed their respective view, which is also an ammo.app. The view construct is passed to the selected view in the .initView() method, part of module 'myModule'. Also, note that in this example a view does not have any props or state. This is because, by convention, all state should be defined within the module itself, in this case within 'myModule'. If a view requires access to the module's props/state, this can be achieved in the following way:
 
 ```javascript
 // using view 'search'
