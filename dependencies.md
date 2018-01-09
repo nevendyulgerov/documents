@@ -1,18 +1,19 @@
 # Fantasy POS - Dependencies
 
-Fantasy POS uses a number of libraries to enhance and extend its functionality. Several libraries are used as base for building other libraries. These include:
+Fantasy POS uses a number of libraries to enhance and extend its functionality. Several libraries are used as base for building in-house libraries. These include:
 
 - jquery
-- initialzr
+- ammo
 
-Another extensively used library is ammo.js - it offers utility-belt methods. More on ammo can be found in its dedicated documentation.
+jQuery provides core functionality, with focus on the $.ajax API and the DOM-manipulation API.
+
+Ammo offers utility-belt methods. More on ammo can be found in its dedicated documentation.
 
 ## Libraries breakdown
 
 Here's a breakdown of the other libraries uses in Fantasy POS:
 
 - bootstrap - currently only bootstrap styles are uses in the app
-- ammo - utility belt
 - dust - the templating engine uses in Fantasy POS
 - flatpickr - date-time picker
 - font-awesome - provides icons
@@ -23,8 +24,6 @@ Here's a breakdown of the other libraries uses in Fantasy POS:
 - moment - date-time library
 - nprogress - loading visualizer
 - router - router library
-- slick-input - dynamic input, created with initialzr
-- slick-modal - dynamic modal, created with initialzr
+- slick-modal - inline modal, created with ammo
 - sweetalert - notification library
 - underscore - utility belt
-- utilities - utility belt

@@ -52,7 +52,7 @@ const app = {
 };
 ```
 
-The initialization of the above app can be read as 'create a local ammo.app with nodes schema - events, renderers, actions'.To add some functionality to your app, you need to use the node API:
+The initialization of the above app can be read as 'create a local ammo.app with nodes schema - events, renderers, actions'. To add some functionality to your app, you need to use the node API:
 
 ```javascript
 
@@ -87,7 +87,7 @@ You can chain node definitions:
 app.configure('actions')
     .node('getData', () => {
         return {data: 123};
-    });
+    })
     .node('init', () => {
         console.log('my app is initialized');
     });
@@ -124,9 +124,8 @@ const state = {
 // create global app with props and state, and schema - events, renderers, action
 const app = ammo.app(props, state).schema('default');
 
-
-// you can now access your app from the window object
-window.myApp will be your app
+// you can now access your app from the global window object
+// window.myApp will be your app
 ```
 
 The app's props are ready only. You can only retrieve them. Here's how to do it:
@@ -167,7 +166,7 @@ By utilizing the available argument `lastValues` you can augment the existing da
 
 `Note:` In ammo.app state and store are the same thing.
 
-`Note:` Ammo.app follows the convention that each app can have its own store. There can be multiple smaller apps with their respective stores in your app. This creates a nice separation of concepts in terms of data management. Your entire app can be seen as a group of smaller apps with specific purpose, each with their own self-managed store.
+`Note:` Ammo.app follows the convention that each app can have its own store, similarly to a Flux-based architectures. There can be multiple smaller apps with their respective stores in your app. This creates a nice separation of concepts in terms of data management. Your entire app can be seen as a group of smaller apps with specific purpose, each with their own self-managed store.
 
 #### Utilizing the ammo.app store with caching
 
@@ -194,10 +193,10 @@ const state = {
 const app = ammo.app(props, state).schema('default').syncWithPersistentStore();
 
 // you can now access your app from the window object
-window.myApp will be your app
+// window.myApp will be your app
 ```
 
-With a single method call you have enabled powerful caching for your app's state. Now, every time you perform an update via .updateStore('storeKey', () => ['newData']) method, this data will be synchronized with the data, residing under localStorage::key('myApp'). This means your data will persist through page reloads. With this functionality, features like maintaining state of configurable UI, become trivial.
+With a single method call you have enabled powerful caching for your app's state. Now, every time you perform an update via the .updateStore('storeKey', () => ['newData']) method, this data will be synchronized with the data, residing under localStorage::key('myApp'). This means that your data will persist through page reloads. With this functionality, features like maintaining state of configurable UI, become trivial.
 
 `Note:` When you need to deal with state in an ammo.app always opt for the built-in state management facilities, rather than maintaining external objects which interact with the app via custom code. You will be rewarded with a much more elegant app structure and less worries related to state management.
 
@@ -252,7 +251,7 @@ myApp.updateStore('settings', () => 'abc');
 
 `Note:` It is strongly recommended that you define all of your ammo.apps' stores as strong-typed stores. This will increase the resilience and predictability of your applications.
 
-`Note:` Remember that all type checking happens at runtime. This means that strong types are mostly useful for development since they can expose potential defects related to types when the update happens. Do not rely on strong types in production.
+`Note:` Remember that all type checking happens at runtime. This means that strong types are mostly useful for development since they can expose potential defects related to types when the store update happens. Do not rely on strong types in production.
 
 `Note:` The available strong types are:
 
@@ -324,11 +323,38 @@ To get a node, use the .getNode() method. To directly call a node, use the .call
 // store node into a variable
 const filterData = myApp.getNode('actions', 'filterData');
 
+// call the node afterwards
+filterData();
+
 // call node directly
 myApp.callNode('actions', 'init');
 ```
 
-`Note:` The .getNode() method is preferred when you need to invoke a node with arguments. The .callNode() method is preferred when the node has zero arguments.
+`Note:` The .getNode() method is preferred when you need to invoke a node with arguments. With it, you first need to get the node and then invoke it. The .callNode() method is preferred when the node has zero arguments. The .callNode() will immediately invoke the desired node.
+
+#### Ammo.app schemas
+
+The .schema() method in ammo.app allows for applying a predefined schema of node families to your app.
+
+There are several built-in schemas in ammo.app. These include:
+
+- default   - node families -> events, renderers, actions
+- app       - node families -> events, actions, common, modules, core
+- module    - node families -> events, actions, templates, views
+- widget    - node families -> events, actions, widgets
+
+You can apply any of these schemas, using the .schema() method:
+
+```javascript
+
+// create an app with the 'module' schema
+const moduleApp = ammo.app().schema('module');
+
+// create an app with the 'widget' schema
+const widgetApp = ammo.app().schema('widget');
+```
+
+`Note:` You can easily augment your app with a new node family using the .augment('nodeFamily') method.
 
 #### Other ammo.app methods
 
@@ -352,28 +378,6 @@ if ( myApp.nodeExists('templates', 'index') ) {
     // node 'index', under node family 'templates' exist
 }
 ```
-
-#### Ammo.app schemas
-
-There are several built-in schemas in ammo.app. These include:
-
-- default   - node families -> events, renderers, actions
-- app       - node families -> events, actions, common, modules, core
-- module    - node families -> events, actions, templates, views
-- widget    - node families -> events, actions, widgets
-
-You can apply any of these schemas, using the .schema() method:
-
-```javascript
-
-// create an app with the 'module' schema
-const moduleApp = ammo.app().schema('module');
-
-// create an app with the 'widget' schema
-const widgetApp = ammo.app().schema('widget');
-```
-
-`Note:` You can easily augment your app with a new node family using the .augment('nodeFamily') method.
 
 ## Ammo.sequence
 
