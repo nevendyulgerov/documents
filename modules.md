@@ -73,7 +73,7 @@ The above code creates a global ammo.app available under 'myModule'. To call the
 window.myModule.callNode('actions', 'init');
 ```
 
-Ammo.app offers a superior way of creating modules on a global scale thanks to the exposed rigid API for interacting with the app. With ammo.app, module 'myModule' takes advantage of a several key benefits:
+Ammo.app offers a superior way of creating modules on a global scale thanks to the exposed rigid API for interacting with the app. With ammo.app, module 'myModule' takes advantage of several key benefits:
 
 - ability to easily manage the module's props and store
 - ability to synchronize the module's store with localStorage (via .syncWithPersistentStore() method)
