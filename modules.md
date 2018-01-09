@@ -64,7 +64,7 @@ Ammo.app offers a more robust way of creating modules and managing their views:
         .node('init', () => {
             console.log(`module 'myModule' initialized.`);
         });
-})(window);
+})();
 ```
 
 The above code creates a global ammo.app available under 'myModule'. To call the init() node use:
@@ -104,7 +104,7 @@ Let's look at a more complicated module, which needs 2 views (search, results) a
                 views[view](ammo.app().schema('default'));
             }
         });
-})(window);
+})();
 ```
 
 ```javascript
